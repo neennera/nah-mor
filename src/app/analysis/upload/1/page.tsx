@@ -24,9 +24,9 @@ export default function Home() {
   };
 
   const confirm = () => {
-    if (photo ) {
+    if (photo) {
       localStorage.setItem('userPhoto', photo);
-      router.push('/loading');
+      router.push('/loading/1');
     } else {
       alert('Please enter your name before continuing.');
     }

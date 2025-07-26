@@ -18,10 +18,6 @@ export default function PersonalityTestResult(): JSX.Element {
     // Logic for retaking quiz
   };
 
-  const handleShowRanking = (): void => {
-    alert("แสดงอันดับผลลัพธ์!");
-    // Logic for showing ranking
-  };
 
   const handleShare = async (): Promise<void> => {
     if (navigator.share) {
@@ -96,20 +92,15 @@ export default function PersonalityTestResult(): JSX.Element {
 
         {/* Buttons */}
         <div className="space-y-4">
-          <button
-            onClick={handleRetakeQuiz}
-            className="w-full bg-green-200 text-green-800 py-4 px-6 rounded-full font-medium hover:bg-green-300 transition-colors"
-          >
-            อยากดูดีขึ้นมั้ย?
-          </button>
+        
 
           <div className="flex items-center gap-4">
-            <button
-              onClick={handleShowRanking}
+              <a
+             href='/result'
               className="flex-1 bg-yellow-200 text-yellow-800 py-3 px-6 rounded-full font-medium hover:bg-yellow-300 transition-colors"
             >
               Ranking
-            </button>
+            </a>
 
             <button
               onClick={handleShare}

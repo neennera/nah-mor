@@ -45,9 +45,9 @@ export default function GreenAnalysis1Page() {
             ))}
           </div>
           <div className="mt-8 flex justify-center">
-            <button className="bg-yellow-300 hover:bg-yellow-400 text-gray-800 font-semibold py-3 px-12 rounded-lg transition-colors duration-200">
+            <a href="/analysis/red/2/analytic" className="bg-yellow-300 hover:bg-yellow-400 text-gray-800 font-semibold py-3 px-12 rounded-lg transition-colors duration-200">
               Next
-            </button>
+            </a>
           </div>
         </div>
       </div>

@@ -13,15 +13,7 @@ export default function PersonalityTestResult(): JSX.Element {
     return () => clearTimeout(timer);
   }, []);
 
-  const handleRetakeQuiz = (): void => {
-    alert("เริ่มทำแบบทดสอบใหม่!");
-    // Logic for retaking quiz
-  };
 
-  const handleShowRanking = (): void => {
-    alert("แสดงอันดับผลลัพธ์!");
-    // Logic for showing ranking
-  };
 
   const handleShare = async (): Promise<void> => {
     if (navigator.share) {
@@ -95,21 +87,22 @@ export default function PersonalityTestResult(): JSX.Element {
         </div>
 
         {/* Buttons */}
-        <div className="space-y-4">
-          <button
-            onClick={handleRetakeQuiz}
+        <div className="space-y-4 w-full">
+          <a
+            href="/analysis/upload/2"
             className="w-full bg-green-200 text-green-800 py-4 px-6 rounded-full font-medium hover:bg-green-300 transition-colors"
           >
             อยากดูดีขึ้นมั้ย?
-          </button>
+          </a>
+          
 
           <div className="flex items-center gap-4">
-            <button
-              onClick={handleShowRanking}
+            <a
+             href='/result'
               className="flex-1 bg-yellow-200 text-yellow-800 py-3 px-6 rounded-full font-medium hover:bg-yellow-300 transition-colors"
             >
               Ranking
-            </button>
+            </a>
 
             <button
               onClick={handleShare}

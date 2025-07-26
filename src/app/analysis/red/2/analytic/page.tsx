@@ -29,7 +29,7 @@ export default function ResultPage() {
   }, []);
 
   const handleContinue = () => {
-    router.push('/animation'); // Change this path to your desired next route
+    router.push('/analysis/red/2/animation'); // Change this path to your desired next route
   };
 
   return (
