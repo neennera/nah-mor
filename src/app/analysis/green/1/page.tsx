@@ -27,11 +27,11 @@ export default function GreenAnalysis1Page() {
           <div className="grid grid-cols-1 gap-4 mb-6">
             <div>
               <h3 className="text-sm font-medium text-gray-600 mb-2">รูปถ่ายที่ 1</h3>
-              <ImageDisplay className='h-56' imageKey="upload1_selfie" />
+              <ImageDisplay imageKey="upload1_selfie" />
             </div>
             <div>
               <h3 className="text-sm font-medium text-gray-600 mb-2">รูปถ่ายที่ 2</h3>
-              <ImageDisplay className='h-56' imageKey="upload2_selfie" />
+              <ImageDisplay imageKey="upload2_selfie" />
             </div>
           </div>
 

@@ -67,7 +67,7 @@ export default function ResultPage() {
   }
 
   return (
-    <main className="container mx-auto p-8 absolute">
+    <main className="container mx-auto p-8 ">
       <h1 className="text-3xl font-bold text-center mb-4">Voting Results</h1>
       
       <div className="text-center my-8 flex flex-row justify-end space-x-5 items-baseline">
@@ -95,20 +95,21 @@ export default function ResultPage() {
                         <ImageDisplay 
                           imageKey="upload2_selfie"
                           title="Upload 2 Photo"
-                          className="h-60 w-60"
+                          className="h-52 w-52"
                           fallbackText="No photo from Upload 2"
                       /> :
-                        <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={300} height={300} />
+                        <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={220} height={220} />
                       }
                     
-                    <h3 className="text-lg font-semibold">{index === 0 ? volunteerName : candidate.name}</h3>
+                    
                   </div>
-                  <div className="text-right">
+                  
+                </div>
+                <div className="text-center">
+                    <h3 className="text-lg font-semibold">{index === 0 ? volunteerName : candidate.name}</h3>
                     <div className="text-lg font-bold">{candidate.votes} votes</div>
                     <div className="text-sm text-gray-600">{percentage}%</div>
                   </div>
-                </div>
-                
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div
                     className={`h-3 rounded-full transition-all duration-500 ${
