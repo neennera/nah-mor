@@ -10,16 +10,19 @@ export default function ResultPage() {
   const router = useRouter();
 
   const goodTraits = [
-    "Symmetrical face",
-    "Bright eyes",
-    "Confident posture", 
-    "Healthy skin tone",
+    "มองตาตรง ไม่หลบตา",
+    "รอยยิ้มจริงใจ",
+    "มีแนวโน้มเป็นคนรับผิดชอบ", 
+    "มีสื่อสารที่ชัดเจน",
+    "ชอบเรียนรู้ความสัมพันธ์",
   ];
 
   const badTraits = [
-    "Uneven lighting",
-    "Slight squinting",
-    "Shadow on left cheek",
+    "มีแววทักแชตคุยกับสาวบ่อ",
+    "มือไว ชอบจับชอบทัช",
+    "ริมฝีปากบาง มุมปากยก ดูเจ้าชู้",
+    "จมูกแหลม โหนกแก้มสูง แสดงความมั่นใจเกินพอด",
+    "คิ้วโก่ง แสดงความชอบเสี่ยง ไม่กลัวเจ็บ",
   ];
 
   useEffect(() => {
@@ -48,7 +51,7 @@ export default function ResultPage() {
 
       {name && <h2 className="text-xl font-semibold mb-8">Hello, {name} 👋</h2>}
 
-      <div className="flex flex-col md:flex-row gap-6 w-full max-w-3xl mb-10">
+      <div className="flex flex-col gap-6 w-full max-w-3xl mb-10">
         {/* Green Zone */}
         <div className="flex-1 bg-green-100 border border-green-300 rounded-lg p-4 shadow flex flex-col items-center">
           <img src="/Angel-01.png" alt="Positive traits icon" className="w-512 h-512 mb-2" />

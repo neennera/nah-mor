@@ -56,19 +56,19 @@ export default function PersonalityTestResult(): JSX.Element {
       {/* Main Content */}
       <div className="max-w-md mx-auto px-6 py-8">
         {/* Result Title */}
-        <div className="text-center mb-6">
+       <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-3">ผลลัพธ์</h1>
           <h2 className="text-xl font-bold text-red-500 mb-6">
-            "นักรักมืออาชีพ"
+            "พ่อเตาปฏิกรณ์"
           </h2>
 
           {/* Description */}
           <p className="text-gray-600 leading-relaxed mb-8">
-            คุณมีเสน่ห์แพรวพราว แต่ควรระวังเรื่อง
+            คุณเป็นหนุ่ม Green Flag ขั้นเทพ!
             <br />
-            ความจริงใจ เพราะโหงวเฮ้งบางจุดบอกถึง
+            เสน่ห์อบอุ่นพุ่งแรงกว่าความร้อนในไมโครเวฟ
             <br />
-            พฤติกรรมเจ้าชู้จนยากไว้วางใจ
+            ความรับผิดชอบเต็มเปี่ยมขนาดเป็นรัฐบาลได้!
           </p>
         </div>
 
@@ -79,15 +79,15 @@ export default function PersonalityTestResult(): JSX.Element {
             fallbackText="No photo from Upload 2"
           />
 
-        {/* Progress Bar */}
+       {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
             <span className="text-gray-800 font-medium">Angel's core</span>
-            <span className="text-gray-800 font-medium">65%</span>
+            <span className="text-gray-800 font-medium">80%</span>
           </div>
           <div className="w-full bg-gray-300 rounded-full h-6 overflow-hidden">
             <div
-              className="h-full bg-gradient-to-r from-red-500 to-red-400 rounded-full transition-all duration-1000 ease-out"
+              className="h-full bg-gradient-to-r from-green-600 to-green-400 rounded-full transition-all duration-1000 ease-out"
               style={{ width: `${progressWidth}%` }}
             ></div>
           </div>
