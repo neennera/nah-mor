@@ -4,22 +4,22 @@ import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
 const candidates = [
-  { id: 0, name: 'อาสาสมัคร', avatar: '👩‍💼' },
-  { id: 1, name: 'ซิน', avatar: '👨‍💻' },
-  { id: 2, name: 'ซัน', avatar: '👩‍🔬' },
-  { id: 3, name: 'นิค', avatar: '👨‍🎨' },
-  { id: 4, name: 'จ๊อบ', avatar: '👩‍🏫' },
-  { id: 5, name: 'แพร', avatar: '👨‍⚕️' },
-  { id: 6, name: 'นีร', avatar: '👩‍⚖️' }
+  { id: 0, name: 'อาสาสมัคร' },
+  { id: 1, name: 'ซิน' },
+  { id: 2, name: 'ซัน' },
+  { id: 3, name: 'นิค' },
+  { id: 4, name: 'จ๊อบ' },
+  { id: 5, name: 'แพร' },
+  { id: 6, name: 'นีร' }
 ]
 
 export default function VotePage() {
   const [selectedCandidate, setSelectedCandidate] = useState<number | null>(null)
-    const [hasVoted, setHasVoted] = useState(true)
+    const [hasVoted, setHasVoted] = useState(false)
     
     useEffect(() => {
-        const value = localStorage.getItem("voted");
-        if (!value || value === null) setHasVoted(false);
+        // const value = localStorage.getItem("voted");
+        // if (!value || value === null) setHasVoted(false);
         
     })
 
@@ -28,12 +28,21 @@ export default function VotePage() {
   }
 
   const submitVote = async () => {
-    if (selectedCandidate) {
-        const base_url = process.env.NEXT_PUBLIC_BASE_URL ?? 'http://localhost:3000'
-        const response = await fetch(`${base_url}/vote`, { method: 'POST',  body: JSON.stringify({vote_id:candidates})},)
-        if (response.ok) {
-            setHasVoted(true)
-            localStorage.setItem('voted', 'true');
+    if (selectedCandidate !== null) {
+        try {
+            const response = await fetch('/api/vote', { 
+                method: 'POST',  
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({vote_id: selectedCandidate})
+            })
+            if (response.ok) {
+                setHasVoted(true)
+                localStorage.setItem('voted', 'true');
+            }
+        } catch (error) {
+            console.error('Error submitting vote:', error)
         }
     }
   }
@@ -70,7 +79,7 @@ export default function VotePage() {
             onClick={() => handleVote(candidate.id)}
           >
             <div className="text-center">
-                <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={300} height={300} />
+            <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={300} height={300} />
               <h3 className="text-xl font-semibold mb-2">{candidate.name}</h3>
               <div className={`w-4 h-4 rounded-full mx-auto ${
                 selectedCandidate === candidate.id ? 'bg-blue-500' : 'bg-gray-300'
