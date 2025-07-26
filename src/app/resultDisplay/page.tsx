@@ -2,8 +2,8 @@
 
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import dynamic from 'next/dynamic'
-import ImageDisplay from '@/components/ImageDisplay';
+// import dynamic from 'next/dynamic'
+import ImageDisplay from '@/components/ImageDisplay'
 
 interface candidateListInterface {
   id: number;
@@ -93,7 +93,7 @@ export default function ResultDisplayPage() {
   }
 
   return (
-    <div className="w-screen h-screen bg-gradient-to-br from-blue-900 to-purple-900 overflow-auto">
+    <div className="w-screen h-screen bg-gradient-to-br from-blue-900 to-purple-900 overflow-auto absolute inset-0">
       <div className="min-h-full p-8">
         <div className="text-center mb-8">
           <h1 className="text-6xl font-bold text-white mb-4">🗳️ ผลการโหวต</h1>
@@ -147,7 +147,6 @@ export default function ResultDisplayPage() {
                   
                   <div className="flex flex-col items-center text-center space-y-4">
                     {/* Candidate Image */}
-                    <div className={`relative ${isTop3 ? 'ring-4 ring-white/50' : 'ring-2 ring-gray-300'} rounded-full p-1`}>
                      {candidate.id === 0 ?
                         <ImageDisplay 
                           imageKey="upload2_selfie"
@@ -158,7 +157,6 @@ export default function ResultDisplayPage() {
                         <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={300} height={300} />
                       }
                 
-                    </div>
                     
                     {/* Candidate Name */}
                     <h3 className={`text-2xl font-bold ${isTop3 ? 'text-white' : 'text-gray-800'}`}>
