@@ -41,7 +41,7 @@ export default function LoadingPage() {
         clearInterval(intervalRef.current!);
         // Redirect 1s after the last line is shown
         setTimeout(() => {
-          router.push('/result');
+          router.push('/analytic');
         }, 1000);
       }
     }, 2000); // Show a line every 500ms
