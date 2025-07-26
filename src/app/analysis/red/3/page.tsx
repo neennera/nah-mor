@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import ImageDisplay from '../../../../components/ImageDisplay';
 
 export default function PersonalityTestResult(): JSX.Element {
   const [progressWidth, setProgressWidth] = useState<number>(0);
@@ -39,14 +40,7 @@ export default function PersonalityTestResult(): JSX.Element {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Header */}
-      <div className="bg-black py-4">
-        <div className="flex justify-center">
-          <div className="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center">
-            <span className="text-white text-xs font-bold">QUIZ</span>
-          </div>
-        </div>
-      </div>
+      
 
       {/* Main Content */}
       <div className="max-w-md mx-auto px-6 py-8">
@@ -67,10 +61,19 @@ export default function PersonalityTestResult(): JSX.Element {
           </p>
         </div>
 
-        {/* Character Circle */}
-        <div className="flex justify-center mb-8">
-          <div className="w-64 h-64 bg-gray-300 rounded-full"></div>
+        {/* Images Section */}
+        <div className="grid grid-cols-2 gap-4 mb-6">
+          <div>
+            <h3 className="text-sm font-medium text-gray-600 mb-2 text-center">รูปถ่ายที่ 1</h3>
+            <ImageDisplay imageKey="upload1_selfie" />
+          </div>
+          <div>
+            <h3 className="text-sm font-medium text-gray-600 mb-2 text-center">รูปถ่ายที่ 2</h3>
+            <ImageDisplay imageKey="upload2_selfie" />
+          </div>
         </div>
+
+       
 
         {/* Progress Bar */}
         <div className="mb-8">

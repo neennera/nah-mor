@@ -23,12 +23,32 @@ export default function Home() {
     setName(''); // Reset name when retaking photo
   };
 
-  const confirm = () => {
+  const confirm = async () => {
     if (photo) {
-      localStorage.setItem('userPhoto', photo);
-      router.push('/loading/1');
+      try {
+        const imageResponse = await fetch('/api/picture', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ 
+            image: photo, 
+            key: 'upload1_selfie' 
+          })
+        })
+        
+        if (imageResponse.ok) {
+          localStorage.setItem('userPhoto', photo);
+          router.push('/loading/1');
+        } else {
+          alert('Failed to save image. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error saving image:', error);
+        alert('Error saving image. Please try again.');
+      }
     } else {
-      alert('Please enter your name before continuing.');
+      alert('Please enter your name and take a photo before continuing.');
     }
   };
 

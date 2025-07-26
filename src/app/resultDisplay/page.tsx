@@ -1,5 +1,6 @@
 'use client'
 
+import ImageDisplay from '@/components/ImageDisplay'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
@@ -90,16 +91,15 @@ export default function ResultDisplayPage() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-3">
                     <span className="text-lg font-bold text-gray-500">#{index + 1}</span>
-                    <Image 
-                      alt={candidate.name} 
-                      src={`/candidate/${candidate.id}.jpg`} 
-                      width={100} 
-                      height={100} 
-                      className="rounded-full object-cover"
-                      onError={(e) => {
-                        e.currentTarget.src = '/candidate/default.jpg'
-                      }}
-                    />
+                   {candidate.id === 0 ?
+                      <ImageDisplay 
+                        imageKey="upload2_selfie"
+                        title="Upload 2 Photo"
+                        className="h-60 w-60"
+                        fallbackText="No photo from Upload 2"
+                    /> :
+                      <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={300} height={300} />
+                    }
                     
                   </div>
                  

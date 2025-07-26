@@ -1,3 +1,5 @@
+import ImageDisplay from '../../../../components/ImageDisplay';
+
 export default function GreenAnalysis1Page() {
   const analysisData = [
     { text: "ดวงตากลมโต มองดูซื่อสัตย์ ", percentage: 89 },
@@ -21,11 +23,16 @@ export default function GreenAnalysis1Page() {
         </h1>
 
         <div className="bg-white border rounded-lg p-6 shadow-sm max-w-md mx-auto">
-          {/* Analysis Placeholder */}
-          <div className="bg-gray-300 h-64 flex items-center justify-center mb-6 rounded">
-            <span className="text-2xl font-semibold text-gray-700">
-              Analysis
-            </span>
+          {/* Images Section */}
+          <div className="grid grid-cols-1 gap-4 mb-6">
+            <div>
+              <h3 className="text-sm font-medium text-gray-600 mb-2">รูปถ่ายที่ 1</h3>
+              <ImageDisplay className='h-56' imageKey="upload1_selfie" />
+            </div>
+            <div>
+              <h3 className="text-sm font-medium text-gray-600 mb-2">รูปถ่ายที่ 2</h3>
+              <ImageDisplay className='h-56' imageKey="upload2_selfie" />
+            </div>
           </div>
 
           {/* Analysis Results */}

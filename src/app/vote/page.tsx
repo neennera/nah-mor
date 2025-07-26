@@ -1,5 +1,6 @@
 'use client'
 
+import ImageDisplay from '@/components/ImageDisplay'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
@@ -79,7 +80,17 @@ export default function VotePage() {
             onClick={() => handleVote(candidate.id)}
           >
             <div className="text-center">
-            <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={300} height={300} />
+              {candidate.id === 0 ?
+                <ImageDisplay 
+                  imageKey="upload2_selfie"
+                  title="Upload 2 Photo"
+                  className="h-60 w-60"
+                  fallbackText="No photo from Upload 2"
+              /> :
+                <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={300} height={300} />
+              }
+             
+              
               <h3 className="text-xl font-semibold mb-2">{candidate.name}</h3>
               <div className={`w-4 h-4 rounded-full mx-auto ${
                 selectedCandidate === candidate.id ? 'bg-blue-500' : 'bg-gray-300'

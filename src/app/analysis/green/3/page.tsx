@@ -1,5 +1,6 @@
 "use client";
 
+import ImageDisplay from "@/components/ImageDisplay";
 import React, { useState, useEffect } from "react";
 
 export default function PersonalityTestResult(): JSX.Element {
@@ -71,10 +72,12 @@ export default function PersonalityTestResult(): JSX.Element {
           </p>
         </div>
 
-        {/* Character Circle */}
-        <div className="flex justify-center mb-8">
-          <div className="w-64 h-64 bg-gray-300 rounded-full"></div>
-        </div>
+        <ImageDisplay 
+            imageKey="upload2_selfie"
+            title="Upload 2 Photo"
+            className="w-full"
+            fallbackText="No photo from Upload 2"
+          />
 
         {/* Progress Bar */}
         <div className="mb-8">

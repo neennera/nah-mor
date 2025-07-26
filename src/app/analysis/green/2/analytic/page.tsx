@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import ImageDisplay from '@/components/ImageDisplay'
 
 export default function ResultPage() {
   const [photo, setPhoto] = useState<string | null>(null);
@@ -10,7 +11,7 @@ export default function ResultPage() {
 
   const goodTraits = [
     "Symmetrical face",
-    "Bright eyes",
+    "Bright eyes", 
     "Confident posture",
     "Healthy skin tone",
   ];
@@ -36,13 +37,25 @@ export default function ResultPage() {
     <div className="min-h-screen bg-gray-100 flex flex-col items-center px-4 py-10">
       <h1 className="text-3xl font-bold mb-4">📊 Your Analysis Results</h1>
 
-      {photo && (
-        <img
-          src={photo}
-          alt="Analyzed selfie"
-          className="w-64 h-64 object-cover rounded-full border-4 border-green-500 shadow-lg mb-6"
-        />
-      )}
+      {/* API Images Section */}
+      <div className="w-full max-w-4xl mb-8">
+        <h2 className="text-xl font-semibold mb-4 text-center">📸 Captured Images</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <ImageDisplay 
+            imageKey="upload1_selfie"
+            title="Upload 1 Photo"
+            className="w-full"
+            fallbackText="No photo from Upload 1"
+          />
+          <ImageDisplay 
+            imageKey="upload2_selfie"
+            title="Upload 2 Photo"
+            className="w-full"
+            fallbackText="No photo from Upload 2"
+          />
+        </div>
+      </div>
+
 
       {name && <h2 className="text-xl font-semibold mb-8">Hello, {name} 👋</h2>}
 

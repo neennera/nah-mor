@@ -1,4 +1,6 @@
-export default function GreenAnalysis1Page() {
+import ImageDisplay from '@/components/ImageDisplay'
+
+export default function RedAnalysis1Page() {
   const analysisData = [
     { text: "ปากบางกำลังดี เส้นขอบชัด ดูเซ็กซี่และดึงดูดใจ", percentage: 70 },
     { text: "ดวงตาคมชัด รูปอัลมอนด์ มองดูลึกลับและมีเสน่ห์", percentage: 80 },
@@ -13,22 +15,14 @@ export default function GreenAnalysis1Page() {
   return (
     <main className="container mx-auto p-8">
       <div className="max-w-4xl mx-auto">
-        <nav className="mb-6">
-          <a href="/analysis" className="text-blue-600 hover:text-blue-800">
-            ← Back to Analysis
-          </a>
-        </nav>
-
-        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
-          วิเคราะห์ใบหน้าของท่าน
-        </h1>
-
-        <div className="bg-white border rounded-lg p-6 shadow-sm max-w-md mx-auto">
-          {/* Analysis Placeholder */}
-          <div className="bg-gray-300 h-64 flex items-center justify-center mb-6 rounded">
-            <span className="text-2xl font-semibold text-gray-700">
-              Analysis
-            </span>
+       <div className="bg-white border rounded-lg p-6 shadow-sm max-w-md mx-auto">
+          <div className="bg-red-100 h-64 flex items-center justify-center mb-6 rounded">
+              <ImageDisplay 
+              imageKey="upload1_selfie"
+              title="📸 รูปภาพจากการอัพโหลด 1"
+              className="w-full h-full"
+              fallbackText="ไม่มีรูปภาพจากการอัพโหลด 1"
+            />
           </div>
 
           {/* Analysis Results */}
