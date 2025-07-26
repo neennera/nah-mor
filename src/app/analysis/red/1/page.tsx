@@ -1,55 +1,56 @@
-export default function RedAnalysis1Page() {
+export default function GreenAnalysis1Page() {
+  const analysisData = [
+    { text: "ปากบางกำลังดี เส้นขอบชัด ดูเซ็กซี่และดึงดูดใจ", percentage: 70 },
+    { text: "ดวงตาคมชัด รูปอัลมอนด์ มองดูลึกลับและมีเสน่ห์", percentage: 80 },
+    { text: "ขากรรไกรกำหนดชัด เพิ่มความคมชัดและความมั่นใจ", percentage: 75 },
+    {
+      text: "คิ้วหนาดกดำ ดูแมสคูลีนและเซ็กซี่ เพิ่มเสน่ห์ให้กับใบหน้า",
+      percentage: 89,
+    },
+    { text: "รูปหน้าแหลม เหลี่ยมเกินไป", percentage: 95 },
+  ];
+
   return (
     <main className="container mx-auto p-8">
       <div className="max-w-4xl mx-auto">
         <nav className="mb-6">
-          <a href="/analysis" className="text-blue-600 hover:text-blue-800">← Back to Analysis</a>
+          <a href="/analysis" className="text-blue-600 hover:text-blue-800">
+            ← Back to Analysis
+          </a>
         </nav>
-        
-        <h1 className="text-3xl font-bold mb-6 text-red-700">Red Analysis 1: Risk Assessment</h1>
-        
-        <div className="bg-white border rounded-lg p-6 shadow-sm">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-red-800 mb-3">High Risk Indicators</h3>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center"><span className="text-red-500 mr-2">●</span> Voter turnout below 60%</li>
-                <li className="flex items-center"><span className="text-red-500 mr-2">●</span> Regional disparities below 25%</li>
-                <li className="flex items-center"><span className="text-red-500 mr-2">●</span> Technical issues reported</li>
-                <li className="flex items-center"><span className="text-red-500 mr-2">●</span> Authentication failures</li>
-              </ul>
-            </div>
-            
-            <div className="bg-orange-50 border border-orange-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-orange-800 mb-3">Medium Risk Factors</h3>
-              <ul className="space-y-2 text-sm">
-                <li className="flex items-center"><span className="text-orange-500 mr-2">●</span> Processing delays</li>
-                <li className="flex items-center"><span className="text-orange-500 mr-2">●</span> Network congestion</li>
-                <li className="flex items-center"><span className="text-orange-500 mr-2">●</span> Data validation warnings</li>
-                <li className="flex items-center"><span className="text-orange-500 mr-2">●</span> Backup system usage</li>
-              </ul>
-            </div>
+
+        <h1 className="text-3xl font-bold mb-6 text-center text-gray-800">
+          วิเคราะห์ใบหน้าของท่าน
+        </h1>
+
+        <div className="bg-white border rounded-lg p-6 shadow-sm max-w-md mx-auto">
+          {/* Analysis Placeholder */}
+          <div className="bg-gray-300 h-64 flex items-center justify-center mb-6 rounded">
+            <span className="text-2xl font-semibold text-gray-700">
+              Analysis
+            </span>
           </div>
-          
-          <div className="bg-gray-50 p-4 rounded-lg">
-            <h3 className="text-lg font-semibold mb-3">Risk Mitigation Strategies</h3>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
-              <div>
-                <h4 className="font-medium mb-2">Prevention</h4>
-                <p className="text-gray-600">Implement early warning systems and regular monitoring protocols.</p>
+
+          {/* Analysis Results */}
+          <div className="space-y-4">
+            {analysisData.map((item, index) => (
+              <div key={index} className="flex justify-between items-start">
+                <span className="text-gray-800 text-sm flex-1 mr-4 leading-relaxed">
+                  • {item.text}
+                </span>
+                <span className="text-gray-800 font-semibold text-lg">
+                  {item.percentage}%
+                </span>
               </div>
-              <div>
-                <h4 className="font-medium mb-2">Response</h4>
-                <p className="text-gray-600">Quick reaction teams and automated failover mechanisms.</p>
-              </div>
-              <div>
-                <h4 className="font-medium mb-2">Recovery</h4>
-                <p className="text-gray-600">Data backup restoration and system redundancy protocols.</p>
-              </div>
-            </div>
+            ))}
+          </div>
+          <div className="mt-8 flex justify-center">
+            <button className="bg-yellow-300 hover:bg-yellow-400 text-gray-800 font-semibold py-3 px-12 rounded-lg transition-colors duration-200">
+              Next
+            </button>
           </div>
         </div>
       </div>
     </main>
-  )
+  );
 }
