@@ -1,30 +1,49 @@
 'use client'
 
-import { useState } from 'react'
+import Image from 'next/image'
+import { useState, useEffect } from 'react'
 
 const candidates = [
-  { id: 1, name: 'Alice Johnson', avatar: '👩‍💼' },
-  { id: 2, name: 'Bob Smith', avatar: '👨‍💻' },
-  { id: 3, name: 'Carol Davis', avatar: '👩‍🔬' },
-  { id: 4, name: 'David Wilson', avatar: '👨‍🎨' },
-  { id: 5, name: 'Eva Brown', avatar: '👩‍🏫' },
-  { id: 6, name: 'Frank Miller', avatar: '👨‍⚕️' },
-  { id: 7, name: 'Grace Taylor', avatar: '👩‍⚖️' }
+  { id: 0, name: 'อาสาสมัคร' },
+  { id: 1, name: 'ซิน' },
+  { id: 2, name: 'ซัน' },
+  { id: 3, name: 'นิค' },
+  { id: 4, name: 'จ๊อบ' },
+  { id: 5, name: 'แพร' },
+  { id: 6, name: 'นีร' }
 ]
 
 export default function VotePage() {
   const [selectedCandidate, setSelectedCandidate] = useState<number | null>(null)
-  const [hasVoted, setHasVoted] = useState(false)
+    const [hasVoted, setHasVoted] = useState(false)
+    
+    useEffect(() => {
+        // const value = localStorage.getItem("voted");
+        // if (!value || value === null) setHasVoted(false);
+        
+    })
 
   const handleVote = (candidateId: number) => {
-    setSelectedCandidate(candidateId)
+      setSelectedCandidate(candidateId)
   }
 
-  const submitVote = () => {
-    if (selectedCandidate) {
-      setHasVoted(true)
-      // Here you would typically send the vote to your backend
-      console.log(`Voted for candidate ${selectedCandidate}`)
+  const submitVote = async () => {
+    if (selectedCandidate !== null) {
+        try {
+            const response = await fetch('/api/vote', { 
+                method: 'POST',  
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({vote_id: selectedCandidate})
+            })
+            if (response.ok) {
+                setHasVoted(true)
+                localStorage.setItem('voted', 'true');
+            }
+        } catch (error) {
+            console.error('Error submitting vote:', error)
+        }
     }
   }
 
@@ -32,13 +51,13 @@ export default function VotePage() {
     return (
       <main className="container mx-auto p-8">
         <div className="text-center">
-          <h1 className="text-3xl font-bold mb-8 text-green-600">Thank You for Voting!</h1>
-          <p className="text-lg mb-4">Your vote has been recorded.</p>
+          <h1 className="text-3xl font-bold mb-8 text-green-600">ขอบคุณสำหรับการโหวตคนหลายใจ</h1>
+          <p className="text-lg mb-4">ดูผลโหวตได้ที่</p>
           <a 
             href="/result" 
             className="bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 inline-block"
           >
-            View Results
+            ใครคือคนหลายใจกันนะ
           </a>
         </div>
       </main>
@@ -47,12 +66,12 @@ export default function VotePage() {
 
   return (
     <main className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Cast Your Vote</h1>
+      <h1 className="text-3xl font-bold text-center mb-8">โหวตคนหลายใจ</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-4xl mx-auto">
         {candidates.map((candidate) => (
           <div
             key={candidate.id}
-            className={`p-6 border-2 rounded-lg cursor-pointer transition-all hover:shadow-lg ${
+            className={`p-6 border-2 rounded-lg cursor-pointer flex items-center flex-col transition-all hover:shadow-lg ${
               selectedCandidate === candidate.id
                 ? 'border-blue-500 bg-blue-50'
                 : 'border-gray-200 hover:border-gray-300'
@@ -60,7 +79,7 @@ export default function VotePage() {
             onClick={() => handleVote(candidate.id)}
           >
             <div className="text-center">
-              <div className="text-4xl mb-4">{candidate.avatar}</div>
+            <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={300} height={300} />
               <h3 className="text-xl font-semibold mb-2">{candidate.name}</h3>
               <div className={`w-4 h-4 rounded-full mx-auto ${
                 selectedCandidate === candidate.id ? 'bg-blue-500' : 'bg-gray-300'
