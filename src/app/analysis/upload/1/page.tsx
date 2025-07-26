@@ -1,9 +1,40 @@
-'use client'
+'use client';
 
-import { useState, useEffect } from 'react'
+import { useRef, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Webcam from 'react-webcam';
 
-export default function Upload1Page() {
-  const [volunteerName, setVolunteerName] = useState<string>('')
+export default function Home() {
+  const webcamRef = useRef<Webcam | null>(null);
+  const router = useRouter();
+
+  const [photo, setPhoto] = useState<string | null>(null);
+  const [name, setName] = useState<string>(''); // ← New name state
+
+  const capture = () => {
+    if (webcamRef.current) {
+      const imageSrc = webcamRef.current.getScreenshot();
+      setPhoto(imageSrc);
+    }
+  };
+
+  const retake = () => {
+    setPhoto(null);
+    setName(''); // Reset name when retaking photo
+  };
+
+  const confirm = () => {
+    if (photo && name.trim()) {
+      localStorage.setItem('userPhoto', photo);
+      localStorage.setItem('userName', name);
+      router.push('/loading');
+    } else {
+      alert('Please enter your name before continuing.');
+    }
+  };
+
+  // name ---------
+   const [volunteerName, setVolunteerName] = useState<string>('')
   const [currentVolunteerName, setCurrentVolunteerName] = useState<string>('ไม่ระบุชื่อ')
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState<string>('')
@@ -62,16 +93,10 @@ export default function Upload1Page() {
   }
 
   return (
-    <main className="container mx-auto p-8">
-      <div className="max-w-4xl mx-auto">
-        <nav className="mb-6">
-          <a href="/analysis" className="text-blue-600 hover:text-blue-800">← Back to Analysis</a>
-        </nav>
-        
-        <h1 className="text-3xl font-bold mb-6">ชื่ออาสาสมัคร</h1>
-        
-        {/* Volunteer Name Section */}
-         <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="font-sans flex flex-col items-center justify-center min-h-screen gap-6 p-8 sm:p-20">
+      <h1 className="text-2xl font-bold text-center">😗 What's your name</h1>
+
+      <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="volunteerName" className="block text-sm font-medium text-gray-700 mb-2">
                 ชื่ออาสาสมัครใหม่
@@ -103,43 +128,66 @@ export default function Upload1Page() {
               </div>
             )}
           </form>
-        
-        
-        <div className="bg-white border rounded-lg p-6 shadow-sm">
-          <h2 className="text-xl font-semibold mb-4">Data Upload Interface</h2>
-          
-          <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center mb-6">
-            <div className="text-4xl mb-4">📁</div>
-            <h3 className="text-lg font-medium mb-2">Upload Your Data Files</h3>
-            <p className="text-gray-600 mb-4">Drag and drop files here or click to browse</p>
-            <button className="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700">
-              Choose Files
+
+
+      <h1 className="text-2xl font-bold text-center">📸 Take a Selfie</h1>
+
+      {!photo ? (
+        <>
+          <Webcam
+            audio={false}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+            videoConstraints={{
+              width: 512,
+              height: 512,
+              facingMode: 'user',
+            }}
+            className="rounded shadow-md object-cover w-[320px] h-[320px]"
+          />
+
+          <button
+            onClick={capture}
+            className="mt-4 bg-blue-600 text-white px-6 py-2 rounded hover:bg-blue-700"
+          >
+            Capture Photo
+          </button>
+        </>
+      ) : (
+        <>
+          <img
+            src={photo}
+            alt="Captured selfie"
+            className="rounded shadow-md border w-[320px] h-[320px] object-cover"
+          />
+
+          <p className="text-lg font-semibold">Is this photo OK?</p>
+
+          {/* Name input */}
+          <input
+            type="text"
+            placeholder="Enter your name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+            className="mt-2 p-2 border rounded w-72 text-black"
+          />
+
+          <div className="flex gap-4 mt-4">
+            <button
+              onClick={confirm}
+              className="bg-green-600 text-white px-5 py-2 rounded hover:bg-green-700"
+            >
+              Yes, Continue
+            </button>
+            <button
+              onClick={retake}
+              className="bg-gray-300 text-black px-5 py-2 rounded hover:bg-gray-400"
+            >
+              Retake
             </button>
           </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h4 className="font-semibold mb-2">Supported Formats</h4>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• CSV files</li>
-                <li>• Excel spreadsheets</li>
-                <li>• JSON data</li>
-                <li>• XML documents</li>
-              </ul>
-            </div>
-            
-            <div className="bg-gray-50 p-4 rounded-lg">
-              <h4 className="font-semibold mb-2">Upload Stats</h4>
-              <ul className="text-sm text-gray-600 space-y-1">
-                <li>• Max file size: 10MB</li>
-                <li>• Files uploaded today: 23</li>
-                <li>• Total uploads: 156</li>
-                <li>• Success rate: 98.7%</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-    </main>
-  )
+        </>
+      )}
+    </div>
+  );
 }
