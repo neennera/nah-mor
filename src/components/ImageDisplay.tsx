@@ -67,11 +67,7 @@ export default function ImageDisplay({
 
   return (
     <div className={`bg-white rounded-lg shadow-md overflow-hidden ${className}`}>
-      {title && (
-        <div className="bg-gray-50 px-4 py-2 border-b">
-          <h3 className="font-semibold text-gray-800">{title}</h3>
-        </div>
-      )}
+     
       <div className="p-4">
         <img
           src={imageData}

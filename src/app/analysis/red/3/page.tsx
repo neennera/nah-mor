@@ -48,7 +48,7 @@ export default function PersonalityTestResult(): JSX.Element {
         <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-3">ผลลัพธ์</h1>
           <h2 className="text-xl font-bold text-red-500 mb-6">
-            "นักรักมืออาชีพ"
+            "ไอ้ต้าวเจ้าชู้"
           </h2>
 
           {/* Description */}
@@ -75,7 +75,7 @@ export default function PersonalityTestResult(): JSX.Element {
         {/* Progress Bar */}
         <div className="mb-8">
           <div className="flex justify-between items-center mb-2">
-            <span className="text-gray-800 font-medium">Angel's core</span>
+            <span className="text-gray-800 font-medium">Devil's core</span>
             <span className="text-gray-800 font-medium">65%</span>
           </div>
           <div className="w-full bg-gray-300 rounded-full h-6 overflow-hidden">

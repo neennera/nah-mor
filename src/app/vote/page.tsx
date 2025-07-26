@@ -15,7 +15,7 @@ const candidates = [
 ]
 
 export default function VotePage() {
-  const [selectedCandidate, setSelectedCandidate] = useState<number | null>(null)
+  const [selectedCandidate, setSelectedCandidate] = useState<number>(-1)
   const [hasVoted, setHasVoted] = useState(false)
     const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
 
@@ -113,7 +113,7 @@ export default function VotePage() {
         ))}
       </div>
       
-      {selectedCandidate && (
+      {selectedCandidate!=-1 && (
         <div className="text-center mt-8">
           <button
             onClick={submitVote}
