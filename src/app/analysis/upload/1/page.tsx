@@ -24,9 +24,8 @@ export default function Home() {
   };
 
   const confirm = () => {
-    if (photo && name.trim()) {
+    if (photo ) {
       localStorage.setItem('userPhoto', photo);
-      localStorage.setItem('userName', name);
       router.push('/loading');
     } else {
       alert('Please enter your name before continuing.');
@@ -94,41 +93,8 @@ export default function Home() {
 
   return (
     <div className="font-sans flex flex-col items-center justify-center min-h-screen gap-6 p-8 sm:p-20">
-      <h1 className="text-2xl font-bold text-center">😗 What's your name</h1>
-
-      <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="volunteerName" className="block text-sm font-medium text-gray-700 mb-2">
-                ชื่ออาสาสมัครใหม่
-              </label>
-              <input
-                type="text"
-                id="volunteerName"
-                value={volunteerName}
-                onChange={(e) => setVolunteerName(e.target.value)}
-                placeholder="ใส่ชื่ออาสาสมัคร..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-                disabled={isSubmitting}
-              />
-            </div>
-            
-            <button
-              type="submit"
-              disabled={isSubmitting || !volunteerName.trim()}
-              className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold text-lg transition-colors"
-            >
-              {isSubmitting ? '⏳ กำลังบันทึก...' : '💾 บันทึกชื่ออาสาสมัคร'}
-            </button>
-            
-            {message && (
-              <div className={`p-3 rounded-lg text-center ${
-                message.includes('✅') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-              }`}>
-                {message}
-              </div>
-            )}
-          </form>
-
+      
+      
 
       <h1 className="text-2xl font-bold text-center">📸 Take a Selfie</h1>
 
@@ -163,14 +129,39 @@ export default function Home() {
 
           <p className="text-lg font-semibold">Is this photo OK?</p>
 
-          {/* Name input */}
-          <input
-            type="text"
-            placeholder="Enter your name"
-            value={name}
-            onChange={e => setName(e.target.value)}
-            className="mt-2 p-2 border rounded w-72 text-black"
-          />
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div>
+              <label htmlFor="volunteerName" className="block text-sm font-medium text-gray-700 mb-2">
+                ชื่ออาสาสมัครใหม่
+              </label>
+              <input
+                type="text"
+                id="volunteerName"
+                value={volunteerName}
+                onChange={(e) => setVolunteerName(e.target.value)}
+                placeholder="ใส่ชื่ออาสาสมัคร..."
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
+                disabled={isSubmitting}
+              />
+            </div>
+            
+            <button
+              type="submit"
+              disabled={isSubmitting || !volunteerName.trim()}
+              className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold text-lg transition-colors"
+            >
+              {isSubmitting ? '⏳ กำลังบันทึก...' : '💾 บันทึก'}
+            </button>
+            
+            {message && (
+              <div className={`p-3 rounded-lg text-center ${
+                message.includes('✅') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
+              }`}>
+                {message}
+              </div>
+            )}
+          </form>
+
 
           <div className="flex gap-4 mt-4">
             <button
