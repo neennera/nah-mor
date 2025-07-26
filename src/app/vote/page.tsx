@@ -16,12 +16,25 @@ const candidates = [
 
 export default function VotePage() {
   const [selectedCandidate, setSelectedCandidate] = useState<number | null>(null)
-    const [hasVoted, setHasVoted] = useState(false)
+  const [hasVoted, setHasVoted] = useState(false)
+    const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
+
     
-    useEffect(() => {
-        // const value = localStorage.getItem("voted");
-        // if (!value || value === null) setHasVoted(false);
-        
+  useEffect(() => {
+    const fetchData = async () => {
+      const value = localStorage.getItem("voted");
+      
+      if (!value || value === null) setHasVoted(false);
+      
+      const [volunteerResponse] = await Promise.all([
+        fetch('/api/volunteer')
+      ])
+      const volunteerData = await volunteerResponse.json()
+      if (volunteerData.volunteerName) {
+          setVolunteerName(volunteerData.volunteerName)
+        }
+    }
+    fetchData();
     })
 
   const handleVote = (candidateId: number) => {
@@ -91,7 +104,7 @@ export default function VotePage() {
               }
              
               
-              <h3 className="text-xl font-semibold mb-2">{candidate.name}</h3>
+              <h3 className="text-xl font-semibold mb-2">{candidate.id===0 ? volunteerName : candidate.name}</h3>
               <div className={`w-4 h-4 rounded-full mx-auto ${
                 selectedCandidate === candidate.id ? 'bg-blue-500' : 'bg-gray-300'
               }`}></div>

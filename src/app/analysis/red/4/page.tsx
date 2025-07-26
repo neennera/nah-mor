@@ -1,5 +1,6 @@
 "use client";
 
+import ImageDisplay from "@/components/ImageDisplay";
 import React from "react";
 
 export default function BeautyInfoPage(): JSX.Element {
@@ -37,9 +38,12 @@ export default function BeautyInfoPage(): JSX.Element {
         </div>
 
         {/* Image Placeholder */}
-        <div className="mb-8">
-          <div className="w-full h-80 bg-gray-300 rounded-lg"></div>
-        </div>
+        <ImageDisplay 
+          imageKey="upload1_selfie"
+          title="📸 รูปภาพจากการอัพโหลด 1"
+          className="w-full h-full"
+          fallbackText="ไม่มีรูปภาพจากการอัพโหลด 1"
+        />
 
         {/* Content Items */}
         <div className="space-y-8">

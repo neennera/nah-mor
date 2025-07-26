@@ -62,15 +62,12 @@ export default function PersonalityTestResult(): JSX.Element {
         </div>
 
         {/* Images Section */}
-        <div className="grid grid-cols-2 gap-4 mb-6">
+        <div className="grid grid-cols-1 gap-4 mb-6">
           <div>
             <h3 className="text-sm font-medium text-gray-600 mb-2 text-center">รูปถ่ายที่ 1</h3>
             <ImageDisplay imageKey="upload1_selfie" />
           </div>
-          <div>
-            <h3 className="text-sm font-medium text-gray-600 mb-2 text-center">รูปถ่ายที่ 2</h3>
-            <ImageDisplay imageKey="upload2_selfie" />
-          </div>
+          
         </div>
 
        

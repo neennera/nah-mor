@@ -1,5 +1,6 @@
 'use client'
 
+import ImageDisplay from '@/components/ImageDisplay'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
@@ -17,8 +18,6 @@ export default function ResultPage() {
   const [voteResults, setVoteResults] = useState<number[]>([0, 0, 0, 0, 0, 0, 0])
   const [loading, setLoading] = useState(true)
   const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
-
-  useEffect(() => {
     const fetchResults = async () => {
       try {
         const [voteResponse, volunteerResponse] = await Promise.all([
@@ -43,6 +42,8 @@ export default function ResultPage() {
       }
     }
 
+  useEffect(() => {
+    
     fetchResults()
   }, [])
 
@@ -66,12 +67,12 @@ export default function ResultPage() {
   }
 
   return (
-    <main className="container mx-auto p-8">
+    <main className="container mx-auto p-8 absolute">
       <h1 className="text-3xl font-bold text-center mb-4">Voting Results</h1>
       
       <div className="text-center my-8 flex flex-row justify-end space-x-5 items-baseline">
           <button
-            onClick={() => window.location.reload()}
+            onClick={() =>fetchResults()}
             className="hover:underline"
           >
             Refresh
@@ -90,16 +91,15 @@ export default function ResultPage() {
                 <div className="flex items-center justify-between mb-2">
                   <div className="flex items-center space-x-3">
                     <span className="text-lg font-bold text-gray-500">#{index + 1}</span>
-                    <Image 
-                      alt={candidate.name} 
-                      src={`/candidate/${candidate.id}.jpg`} 
-                      width={100} 
-                      height={100} 
-                      className="rounded-full object-cover"
-                      onError={(e) => {
-                        e.currentTarget.src = '/candidate/default.jpg'
-                      }}
-                    />
+                     {candidate.id === 0 ?
+                        <ImageDisplay 
+                          imageKey="upload2_selfie"
+                          title="Upload 2 Photo"
+                          className="h-60 w-60"
+                          fallbackText="No photo from Upload 2"
+                      /> :
+                        <Image alt={candidate.name} src={`/candidate/${candidate.id}.jpg`} width={300} height={300} />
+                      }
                     
                     <h3 className="text-lg font-semibold">{index === 0 ? volunteerName : candidate.name}</h3>
                   </div>
