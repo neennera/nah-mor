@@ -11,10 +11,10 @@ let voteresult = [0, 0, 0, 0, 0, 0, 0]
 
 export async function GET() {
   try {
-    console.log('GET /api/vote called, voteresult:', voteresult)
+    // console.log('GET /api/vote called, voteresult:', voteresult)
     return NextResponse.json({ voteresult })
   } catch (err) {
-    console.error('GET /api/vote error:', err)
+    // console.error('GET /api/vote error:', err)
     return NextResponse.json({ voteresult }, { status: 500 })
   }
 }
@@ -22,14 +22,14 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const { vote_id } = await req.json()
-    console.log('POST /api/vote called with vote_id:', vote_id)
+    // console.log('POST /api/vote called with vote_id:', vote_id)
     if (vote_id >= 0 && vote_id < voteresult.length) {
       voteresult[vote_id] += 1;
-      console.log('Updated voteresult:', voteresult)
+    //   console.log('Updated voteresult:', voteresult)
     }
     return NextResponse.json({ voteresult })
   } catch (err) {
-    console.error('POST /api/vote error:', err)
+    // console.error('POST /api/vote error:', err)
     return NextResponse.json({ voteresult }, { status: 500 })
   }
 }

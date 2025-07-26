@@ -13,13 +13,12 @@ const candidates = [
   { id: 6, name: 'นีร' }
 ]
 
-export default function ResultPage() {
+export default function ResultDisplayPage() {
   const [voteResults, setVoteResults] = useState<number[]>([0, 0, 0, 0, 0, 0, 0])
   const [loading, setLoading] = useState(true)
   const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
 
-  useEffect(() => {
-    const fetchResults = async () => {
+   const fetchResults = async () => {
       try {
         const [voteResponse, volunteerResponse] = await Promise.all([
           fetch('/api/vote'),
@@ -37,12 +36,13 @@ export default function ResultPage() {
           setVolunteerName(volunteerData.volunteerName)
         }
       } catch (error) {
-        console.error('Error fetching results:', error)
+        console.error('Error fetching vote results:', error)
       } finally {
         setLoading(false)
       }
     }
 
+  useEffect(() => {
     fetchResults()
   }, [])
 
@@ -66,23 +66,23 @@ export default function ResultPage() {
   }
 
   return (
-    <main className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold text-center mb-4">Voting Results</h1>
-      
+    <main className="absolute mx-auto p-8 w-[105vw] bg-white h-screen overflow-y-scroll -translate-x-[40vw]">
+      <h1 className="text-3xl font-bold text-center mb-4">🗳️ ผลการโหวต</h1>
+
       <div className="text-center my-8 flex flex-row justify-end space-x-5 items-baseline">
           <button
-            onClick={() => window.location.reload()}
+            onClick={() => fetchResults()}
             className="hover:underline"
           >
             Refresh
           </button>
           <h2 className="text-xs font-semibold mb-2 italic">Total Votes: {totalVotes}</h2>
+
         </div>
         
-      <div className="max-w-2xl mx-auto">
+      <div className="max-w-2xl mx-auto grid grid-cols-3 gap-3 w-[80%]">
         
 
-        <div className="space-y-4">
           {sortedCandidates.map((candidate, index) => {
             const percentage = totalVotes > 0 ? ((candidate.votes / totalVotes) * 100).toFixed(1) : '0.0'
             return (
@@ -101,14 +101,15 @@ export default function ResultPage() {
                       }}
                     />
                     
-                    <h3 className="text-lg font-semibold">{index === 0 ? volunteerName : candidate.name}</h3>
                   </div>
-                  <div className="text-right">
+                 
+                </div>
+                 <div className="text-center w-full">
+                    <h3 className="text-3xl my-3 font-semibold">{index === 0 ? volunteerName :candidate.name}</h3>
+
                     <div className="text-lg font-bold">{candidate.votes} votes</div>
                     <div className="text-sm text-gray-600">{percentage}%</div>
                   </div>
-                </div>
-                
                 <div className="w-full bg-gray-200 rounded-full h-3">
                   <div
                     className={`h-3 rounded-full transition-all duration-500 ${
@@ -122,7 +123,6 @@ export default function ResultPage() {
               </div>
             )
           })}
-        </div>
       </div>
     </main>
   )
