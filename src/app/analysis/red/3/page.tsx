@@ -87,16 +87,16 @@ export default function PersonalityTestResult(): JSX.Element {
         </div>
 
         {/* Buttons */}
-        <div className="space-y-4 w-full">
+        <div className="space-y-4 w-full flex items-center flex-col">
           <a
-            href="/analysis/upload/2"
+            href="/analysis/red/4"
             className="w-full bg-green-200 text-green-800 py-4 px-6 rounded-full font-medium hover:bg-green-300 transition-colors"
           >
             อยากดูดีขึ้นมั้ย?
           </a>
           
 
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 w-full">
             <a
              href='/result'
               className="flex-1 bg-yellow-200 text-yellow-800 py-3 px-6 rounded-full font-medium hover:bg-yellow-300 transition-colors"
