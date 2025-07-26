@@ -64,7 +64,7 @@ export default function PersonalityTestResult(): JSX.Element {
 
           {/* Description */}
           <p className="text-gray-600 leading-relaxed mb-8">
-            คุณเป็นหนุ่ม Green Flag ขั้นเทพ!
+            คุณเป็นคน Green Flag ขั้นเทพ!
             <br />
             เสน่ห์อบอุ่นพุ่งแรงกว่าความร้อนในไมโครเวฟ
             <br />
