@@ -44,7 +44,7 @@ export default function LoadingPage() {
           router.push('/analysis/green/1');
         }, 1000);
       }
-    }, 2000); // Show a line every 500ms
+    }, 500); // Show a line every 500ms
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
