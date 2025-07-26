@@ -16,13 +16,24 @@ const candidates = [
 export default function ResultDisplayPage() {
   const [voteResults, setVoteResults] = useState<number[]>([0, 0, 0, 0, 0, 0, 0])
   const [loading, setLoading] = useState(true)
+  const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
 
    const fetchResults = async () => {
       try {
-        const response = await fetch('/api/vote')
-        const data = await response.json()
-        if (data.voteresult) {
-          setVoteResults(data.voteresult)
+        const [voteResponse, volunteerResponse] = await Promise.all([
+          fetch('/api/vote'),
+          fetch('/api/volunteer')
+        ])
+        
+        const voteData = await voteResponse.json()
+        const volunteerData = await volunteerResponse.json()
+        
+        if (voteData.voteresult) {
+          setVoteResults(voteData.voteresult)
+        }
+        
+        if (volunteerData.volunteerName) {
+          setVolunteerName(volunteerData.volunteerName)
         }
       } catch (error) {
         console.error('Error fetching vote results:', error)
@@ -56,7 +67,8 @@ export default function ResultDisplayPage() {
 
   return (
     <main className="absolute mx-auto p-8 w-[105vw] bg-white h-screen overflow-y-scroll -translate-x-[40vw]">
-      <h1 className="text-3xl font-bold text-center mb-8">Voting Results</h1>
+      <h1 className="text-3xl font-bold text-center mb-4">🗳️ ผลการโหวต</h1>
+
       <div className="text-center my-8 flex flex-row justify-end space-x-5 items-baseline">
           <button
             onClick={() => fetchResults()}
@@ -93,7 +105,7 @@ export default function ResultDisplayPage() {
                  
                 </div>
                  <div className="text-center w-full">
-                    <h3 className="text-3xl my-3 font-semibold">{candidate.name}</h3>
+                    <h3 className="text-3xl my-3 font-semibold">{index === 0 ? volunteerName :candidate.name}</h3>
 
                     <div className="text-lg font-bold">{candidate.votes} votes</div>
                     <div className="text-sm text-gray-600">{percentage}%</div>

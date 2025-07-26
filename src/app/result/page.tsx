@@ -16,17 +16,28 @@ const candidates = [
 export default function ResultPage() {
   const [voteResults, setVoteResults] = useState<number[]>([0, 0, 0, 0, 0, 0, 0])
   const [loading, setLoading] = useState(true)
+  const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
 
   useEffect(() => {
     const fetchResults = async () => {
       try {
-        const response = await fetch('/api/vote')
-        const data = await response.json()
-        if (data.voteresult) {
-          setVoteResults(data.voteresult)
+        const [voteResponse, volunteerResponse] = await Promise.all([
+          fetch('/api/vote'),
+          fetch('/api/volunteer')
+        ])
+        
+        const voteData = await voteResponse.json()
+        const volunteerData = await volunteerResponse.json()
+        
+        if (voteData.voteresult) {
+          setVoteResults(voteData.voteresult)
+        }
+        
+        if (volunteerData.volunteerName) {
+          setVolunteerName(volunteerData.volunteerName)
         }
       } catch (error) {
-        console.error('Error fetching vote results:', error)
+        console.error('Error fetching results:', error)
       } finally {
         setLoading(false)
       }
@@ -56,7 +67,8 @@ export default function ResultPage() {
 
   return (
     <main className="container mx-auto p-8">
-      <h1 className="text-3xl font-bold text-center mb-8">Voting Results</h1>
+      <h1 className="text-3xl font-bold text-center mb-4">Voting Results</h1>
+      
       <div className="text-center my-8 flex flex-row justify-end space-x-5 items-baseline">
           <button
             onClick={() => window.location.reload()}
@@ -65,7 +77,6 @@ export default function ResultPage() {
             Refresh
           </button>
           <h2 className="text-xs font-semibold mb-2 italic">Total Votes: {totalVotes}</h2>
-
         </div>
         
       <div className="max-w-2xl mx-auto">
@@ -90,7 +101,7 @@ export default function ResultPage() {
                       }}
                     />
                     
-                    <h3 className="text-lg font-semibold">{candidate.name}</h3>
+                    <h3 className="text-lg font-semibold">{index === 0 ? volunteerName : candidate.name}</h3>
                   </div>
                   <div className="text-right">
                     <div className="text-lg font-bold">{candidate.votes} votes</div>
