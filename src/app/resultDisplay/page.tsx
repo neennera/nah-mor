@@ -40,28 +40,34 @@ export default function ResultDisplayPage() {
   }
   const fetchResults = async () => {
     try {
-        setLoading(true)
-        const response = await fetch('/api/vote')
-        const data = await response.json()
-        if (data.voteresult) {
-          setVoteResults(data.voteresult)
-          // Calculate total votes from the fresh data
-          const newTotalVotes = data.voteresult.reduce((sum: number, votes: number) => sum + votes, 0)
-          setTotalVotes(newTotalVotes)
-          
-          // Create candidates with votes using fresh data
-          const candidatesWithVotes = candidates.map((candidate, index) => ({
-            ...candidate,
-            votes: data.voteresult[index] || 0
-          }))
-          const sortedCandidates = [...candidatesWithVotes].sort((a, b) => b.votes - a.votes)
-          setCandidateList(sortedCandidates)
-        }
-      } catch (error) {
-        console.error('Error fetching vote results:', error)
-      } finally {
-        setLoading(false)
+      setLoading(true)
+      
+      // Get vote results from localStorage
+      const storedVotes = localStorage.getItem('voteResults')
+      let voteResults = [0, 0, 0, 0, 0, 0, 0]
+      
+      if (storedVotes) {
+        voteResults = JSON.parse(storedVotes)
       }
+      
+      setVoteResults(voteResults)
+      
+      // Calculate total votes from the data
+      const newTotalVotes = voteResults.reduce((sum: number, votes: number) => sum + votes, 0)
+      setTotalVotes(newTotalVotes)
+      
+      // Create candidates with votes using data
+      const candidatesWithVotes = candidates.map((candidate, index) => ({
+        ...candidate,
+        votes: voteResults[index] || 0
+      }))
+      const sortedCandidates = [...candidatesWithVotes].sort((a, b) => b.votes - a.votes)
+      setCandidateList(sortedCandidates)
+    } catch (error) {
+      console.error('Error loading vote results from localStorage:', error)
+    } finally {
+      setLoading(false)
+    }
   }
   
   useEffect(() => {

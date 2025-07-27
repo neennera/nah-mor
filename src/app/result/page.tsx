@@ -19,7 +19,7 @@ export default function ResultPage() {
   const [loading, setLoading] = useState(true)
   const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
   
-  const fetchResults = async (attempt = 0) => {
+  const fetchResults = async () => {
     try {
       // Get volunteer name from localStorage
       const storedName = localStorage.getItem('volunteerName')
@@ -27,36 +27,18 @@ export default function ResultPage() {
         setVolunteerName(storedName)
       }
       
-      // Fetch only vote results from API
-      const voteResponse = await fetch('/api/vote', {
-        cache: 'no-store',
-        headers: { 'Cache-Control': 'no-cache' }
-      })
-      
-      if (!voteResponse.ok) {
-        throw new Error(`HTTP error! Vote: ${voteResponse.status}`)
-      }
-      
-      const voteData = await voteResponse.json()
-      
-      if (voteData.voteresult) {
-        setVoteResults(voteData.voteresult)
+      // Get vote results from localStorage
+      const storedVotes = localStorage.getItem('voteResults')
+      if (storedVotes) {
+        const voteResults = JSON.parse(storedVotes)
+        setVoteResults(voteResults)
       }
     } catch (error) {
-      console.error(`Error fetching results (attempt ${attempt + 1}):`, error)
-        
-        // Retry up to 3 times with increasing delay
-        if (attempt < 2) {
-          const delay = (attempt + 1) * 1000
-          setTimeout(() => fetchResults(attempt + 1), delay)
-          return
-        }
-      } finally {
-        if (attempt === 0 || attempt >= 2) {
-          setLoading(false)
-        }
-      }
+      console.error('Error loading results from localStorage:', error)
+    } finally {
+      setLoading(false)
     }
+  }
 
   useEffect(() => {
     

@@ -1,6 +1,25 @@
 import { NextRequest, NextResponse } from "next/server";
 
-let voteresult = [0, 0, 0, 0, 0, 0, 0]
+// Declare global type for vote results
+declare global {
+  var voteResults: number[] | undefined;
+}
+
+// Helper function to get vote results from global storage
+function getVoteResults(): number[] {
+  if (typeof globalThis !== 'undefined' && !globalThis.voteResults) {
+    globalThis.voteResults = [0, 0, 0, 0, 0, 0, 0];
+  }
+  return globalThis.voteResults || [0, 0, 0, 0, 0, 0, 0];
+}
+
+// Helper function to save vote results to global storage
+function saveVoteResults(results: number[]): void {
+  if (typeof globalThis !== 'undefined') {
+    globalThis.voteResults = results;
+  }
+}
+
 // 0 อาสาสมัคร
 // 1 ซิน
 // 2 ซัน
@@ -11,10 +30,10 @@ let voteresult = [0, 0, 0, 0, 0, 0, 0]
 
 export async function GET() {
   try {
-    // console.log('GET /api/vote called, voteresult:', voteresult)
+    const voteresult = getVoteResults();
     return NextResponse.json({ voteresult })
   } catch (err) {
-    // console.error('GET /api/vote error:', err)
+    const voteresult = [0, 0, 0, 0, 0, 0, 0];
     return NextResponse.json({ voteresult }, { status: 500 })
   }
 }
@@ -22,14 +41,16 @@ export async function GET() {
 export async function POST(req: NextRequest) {
   try {
     const { vote_id } = await req.json()
-    // console.log('POST /api/vote called with vote_id:', vote_id)
+    const voteresult = getVoteResults();
+    
     if (vote_id >= 0 && vote_id < voteresult.length) {
       voteresult[vote_id] += 1;
-    //   console.log('Updated voteresult:', voteresult)
+      saveVoteResults(voteresult);
     }
+    
     return NextResponse.json({ voteresult })
   } catch (err) {
-    // console.error('POST /api/vote error:', err)
+    const voteresult = getVoteResults();
     return NextResponse.json({ voteresult }, { status: 500 })
   }
 }

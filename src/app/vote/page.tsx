@@ -46,21 +46,28 @@ export default function VotePage() {
 
   const submitVote = async () => {
     if (selectedCandidate !== null) {
-        try {
-            const response = await fetch('/api/vote', { 
-                method: 'POST',  
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({vote_id: selectedCandidate})
-            })
-            if (response.ok) {
-                setHasVoted(true)
-                localStorage.setItem('voted', 'true');
-            }
-        } catch (error) {
-            console.error('Error submitting vote:', error)
+      try {
+        // Get current vote results from localStorage
+        const storedVotes = localStorage.getItem('voteResults')
+        let voteResults = [0, 0, 0, 0, 0, 0, 0]
+        
+        if (storedVotes) {
+          voteResults = JSON.parse(storedVotes)
         }
+        
+        // Increment the selected candidate's vote
+        if (selectedCandidate >= 0 && selectedCandidate < voteResults.length) {
+          voteResults[selectedCandidate] += 1
+        }
+        
+        // Save back to localStorage
+        localStorage.setItem('voteResults', JSON.stringify(voteResults))
+        localStorage.setItem('voted', 'true')
+        
+        setHasVoted(true)
+      } catch (error) {
+        console.error('Error submitting vote:', error)
+      }
     }
   }
 
