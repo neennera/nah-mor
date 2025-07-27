@@ -18,48 +18,27 @@ export default function ResultPage() {
   const [voteResults, setVoteResults] = useState<number[]>([0, 0, 0, 0, 0, 0, 0])
   const [loading, setLoading] = useState(true)
   const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
-    const fetchResults = async (attempt = 0) => {
-      try {
-        const [voteResponse, volunteerResponse] = await Promise.all([
-          fetch('/api/vote', {
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache' }
-          }),
-          fetch('/api/volunteer', {
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache' }
-          })
-        ])
-        
-        if (!voteResponse.ok || !volunteerResponse.ok) {
-          throw new Error(`HTTP error! Vote: ${voteResponse.status}, Volunteer: ${volunteerResponse.status}`)
-        }
-        
-        const voteData = await voteResponse.json()
-        const volunteerData = await volunteerResponse.json()
-        
-        if (voteData.voteresult) {
-          setVoteResults(voteData.voteresult)
-        }
-        
-        if (volunteerData.volunteerName) {
-          setVolunteerName(volunteerData.volunteerName)
-        }
-      } catch (error) {
-        console.error(`Error fetching results (attempt ${attempt + 1}):`, error)
-        
-        // Retry up to 3 times with increasing delay
-        if (attempt < 2) {
-          const delay = (attempt + 1) * 1000
-          setTimeout(() => fetchResults(attempt + 1), delay)
-          return
-        }
-      } finally {
-        if (attempt === 0 || attempt >= 2) {
-          setLoading(false)
-        }
+  
+  const fetchResults = async () => {
+    try {
+      // Get volunteer name from localStorage
+      const storedName = localStorage.getItem('volunteerName')
+      if (storedName) {
+        setVolunteerName(storedName)
       }
+      
+      // Get vote results from localStorage
+      const storedVotes = localStorage.getItem('voteResults')
+      if (storedVotes) {
+        const voteResults = JSON.parse(storedVotes)
+        setVoteResults(voteResults)
+      }
+    } catch (error) {
+      console.error('Error loading results from localStorage:', error)
+    } finally {
+      setLoading(false)
     }
+  }
 
   useEffect(() => {
     

@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import Image from 'next/image'
 
 interface ImageDisplayProps {
   imageKey: string
@@ -18,55 +17,30 @@ export default function ImageDisplay({
 }: ImageDisplayProps) {
   const [imageData, setImageData] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
-  const [error, setError] = useState<string | null>(null)
-  const [retryCount, setRetryCount] = useState(0)
+  const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
-    const fetchImage = async (attempt = 0) => {
+    setMounted(true)
+    
+    const loadImageFromStorage = () => {
       try {
         setLoading(true)
-        setError(null)
-        
-        const response = await fetch(`/api/picture?key=${imageKey}`, {
-          cache: 'no-store', // Prevent caching issues
-          headers: {
-            'Cache-Control': 'no-cache'
-          }
-        })
-        
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`)
-        }
-        
-        const data = await response.json()
-        
-        if (data.image) {
-          setImageData(data.image)
-          setError(null)
-        } else {
-          throw new Error('No image data received')
-        }
+        const storedImage = localStorage.getItem(imageKey)
+        setImageData(storedImage)
       } catch (err) {
-        console.error(`Error fetching image (attempt ${attempt + 1}):`, err)
-        
-        // Retry up to 3 times with increasing delay
-        if (attempt < 2) {
-          const delay = (attempt + 1) * 1000 // 1s, 2s, 3s delays
-          setTimeout(() => {
-            setRetryCount(attempt + 1)
-            fetchImage(attempt + 1)
-          }, delay)
-          return
-        }
-        
-        setError('Failed to load image after multiple attempts')
+        console.error('Error loading image from localStorage:', err)
       } finally {
         setLoading(false)
       }
     }
 
-    fetchImage()
+    loadImageFromStorage()
   }, [imageKey])
+
+  // Prevent hydration mismatch
+  if (!mounted) {
+    return null
+  }
 
   if (loading) {
     return (
@@ -79,20 +53,12 @@ export default function ImageDisplay({
     )
   }
 
-  if (error || !imageData) {
+  if (!imageData) {
     return (
       <div className={`flex items-center justify-center p-8 bg-gray-100 rounded-lg ${className}`}>
         <div className="text-center">
           <div className="text-4xl mb-2">📷</div>
-          <p className="text-gray-600 mb-2">{fallbackText}</p>
-          {error && (
-            <button
-              onClick={() => window.location.reload()}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm"
-            >
-              🔄 Retry
-            </button>
-          )}
+          <p className="text-gray-600">{fallbackText}</p>
         </div>
       </div>
     )
@@ -100,7 +66,6 @@ export default function ImageDisplay({
 
   return (
     <div className={`bg-white rounded-lg shadow-md overflow-hidden ${className}`}>
-     
       <div className="p-4">
         <img
           src={imageData}
