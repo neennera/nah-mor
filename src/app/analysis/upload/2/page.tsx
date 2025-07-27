@@ -76,41 +76,7 @@ export default function Home() {
     fetchVolunteerName()
   }, [])
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!volunteerName.trim()) {
-      setMessage('กรุณาใส่ชื่ออาสาสมัคร')
-      return
-    }
-
-    setIsSubmitting(true)
-    setMessage('')
-
-    try {
-      const response = await fetch('/api/volunteer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: volunteerName.trim() })
-      })
-
-      const data = await response.json()
-      
-      if (response.ok) {
-        setCurrentVolunteerName(data.volunteerName)
-        setVolunteerName('')
-        setMessage('✅ บันทึกชื่ออาสาสมัครเรียบร้อยแล้ว!')
-      } else {
-        setMessage('❌ เกิดข้อผิดพลาดในการบันทึก')
-      }
-    } catch (error) {
-      console.error('Error updating volunteer name:', error)
-      setMessage('❌ เกิดข้อผิดพลาดในการเชื่อมต่อ')
-    } finally {
-      setIsSubmitting(false)
-    }
-  }
+  
 
   return (
     <div className="font-sans flex flex-col items-center justify-center min-h-screen gap-6 p-8 sm:p-20">
@@ -150,38 +116,7 @@ export default function Home() {
 
           <p className="text-lg font-semibold">Is this photo OK?</p>
 
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <label htmlFor="volunteerName" className="block text-sm font-medium text-gray-700 mb-2">
-                ชื่ออาสาสมัครใหม่
-              </label>
-              <input
-                type="text"
-                id="volunteerName"
-                value={volunteerName}
-                onChange={(e) => setVolunteerName(e.target.value)}
-                placeholder="ใส่ชื่ออาสาสมัคร..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-                disabled={isSubmitting}
-              />
-            </div>
-            
-            <button
-              type="submit"
-              disabled={isSubmitting || !volunteerName.trim()}
-              className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold text-lg transition-colors"
-            >
-              {isSubmitting ? '⏳ กำลังบันทึก...' : '💾 บันทึก'}
-            </button>
-            
-            {message && (
-              <div className={`p-3 rounded-lg text-center ${
-                message.includes('✅') ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'
-              }`}>
-                {message}
-              </div>
-            )}
-          </form>
+          
 
 
           <div className="flex gap-4 mt-4">

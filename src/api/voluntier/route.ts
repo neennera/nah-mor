@@ -4,9 +4,9 @@ let name = "ไม่ระบุชื่อ" // Default volunteer name
 
 export async function GET() {
   try {
-    return NextResponse.json({ name })
+    return NextResponse.json({ volunteerName: name })
   } catch (err) {
-    return NextResponse.json({ name }, { status: 500 })
+    return NextResponse.json({ volunteerName: name }, { status: 500 })
   }
 }
 

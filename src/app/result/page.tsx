@@ -18,12 +18,22 @@ export default function ResultPage() {
   const [voteResults, setVoteResults] = useState<number[]>([0, 0, 0, 0, 0, 0, 0])
   const [loading, setLoading] = useState(true)
   const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
-    const fetchResults = async () => {
+    const fetchResults = async (attempt = 0) => {
       try {
         const [voteResponse, volunteerResponse] = await Promise.all([
-          fetch('/api/vote'),
-          fetch('/api/volunteer')
+          fetch('/api/vote', {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+          }),
+          fetch('/api/volunteer', {
+            cache: 'no-store',
+            headers: { 'Cache-Control': 'no-cache' }
+          })
         ])
+        
+        if (!voteResponse.ok || !volunteerResponse.ok) {
+          throw new Error(`HTTP error! Vote: ${voteResponse.status}, Volunteer: ${volunteerResponse.status}`)
+        }
         
         const voteData = await voteResponse.json()
         const volunteerData = await volunteerResponse.json()
@@ -36,9 +46,18 @@ export default function ResultPage() {
           setVolunteerName(volunteerData.volunteerName)
         }
       } catch (error) {
-        console.error('Error fetching results:', error)
+        console.error(`Error fetching results (attempt ${attempt + 1}):`, error)
+        
+        // Retry up to 3 times with increasing delay
+        if (attempt < 2) {
+          const delay = (attempt + 1) * 1000
+          setTimeout(() => fetchResults(attempt + 1), delay)
+          return
+        }
       } finally {
-        setLoading(false)
+        if (attempt === 0 || attempt >= 2) {
+          setLoading(false)
+        }
       }
     }
 

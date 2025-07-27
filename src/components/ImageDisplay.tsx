@@ -19,22 +19,47 @@ export default function ImageDisplay({
   const [imageData, setImageData] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  const [retryCount, setRetryCount] = useState(0)
 
   useEffect(() => {
-    const fetchImage = async () => {
+    const fetchImage = async (attempt = 0) => {
       try {
         setLoading(true)
-        const response = await fetch(`/api/picture?key=${imageKey}`)
+        setError(null)
+        
+        const response = await fetch(`/api/picture?key=${imageKey}`, {
+          cache: 'no-store', // Prevent caching issues
+          headers: {
+            'Cache-Control': 'no-cache'
+          }
+        })
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        
         const data = await response.json()
         
-        if (response.ok && data.image) {
+        if (data.image) {
           setImageData(data.image)
+          setError(null)
         } else {
-          setError('Image not found')
+          throw new Error('No image data received')
         }
       } catch (err) {
-        console.error('Error fetching image:', err)
-        setError('Failed to load image')
+        console.error(`Error fetching image (attempt ${attempt + 1}):`, err)
+        
+        // Retry up to 3 times with increasing delay
+        if (attempt < 2) {
+          const delay = (attempt + 1) * 1000 // 1s, 2s, 3s delays
+          setTimeout(() => {
+            setRetryCount(attempt + 1)
+            fetchImage(attempt + 1)
+          }, delay)
+          return
+        }
+        
+        setError('Failed to load image after multiple attempts')
       } finally {
         setLoading(false)
       }
@@ -59,7 +84,15 @@ export default function ImageDisplay({
       <div className={`flex items-center justify-center p-8 bg-gray-100 rounded-lg ${className}`}>
         <div className="text-center">
           <div className="text-4xl mb-2">📷</div>
-          <p className="text-gray-600">{fallbackText}</p>
+          <p className="text-gray-600 mb-2">{fallbackText}</p>
+          {error && (
+            <button
+              onClick={() => window.location.reload()}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition-colors text-sm"
+            >
+              🔄 Retry
+            </button>
+          )}
         </div>
       </div>
     )
