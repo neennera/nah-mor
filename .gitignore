@@ -3,4 +3,4 @@ node_modules
 /.next
 .env
 .vercel
-/src/app/generated
+# /src/app/generated

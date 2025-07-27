@@ -1,0 +1,39 @@
+// Define database connection via the `DATABASE_URL` env var
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Define custom output path for generated Prisma Client
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/app/generated/prisma-client"
+}
+
+// Vote tracking model
+model Vote {
+  id          Int      @id @default(autoincrement())
+  candidateId Int
+  count       Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([candidateId])
+}
+
+// Volunteer name model
+model Volunteer {
+  id        Int      @id @default(autoincrement())
+  name      String   @default("ไม่ระบุชื่อ")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+// Picture storage model
+model Picture {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  imageData String // Base64 encoded image
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
