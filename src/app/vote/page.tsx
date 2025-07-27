@@ -23,16 +23,19 @@ export default function VotePage() {
   useEffect(() => {
     const fetchData = async () => {
       const value = localStorage.getItem("voted");
-      
+      const storedName = localStorage.getItem('volunteerName')
+      if (storedName) {
+        setVolunteerName(storedName)
+      }
       if (!value || value === null) setHasVoted(false);
       
-      const [volunteerResponse] = await Promise.all([
-        fetch('/api/volunteer')
-      ])
-      const volunteerData = await volunteerResponse.json()
-      if (volunteerData.volunteerName) {
-          setVolunteerName(volunteerData.volunteerName)
-        }
+      // const [volunteerResponse] = await Promise.all([
+      //   fetch('/api/volunteer')
+      // ])
+      // const volunteerData = await volunteerResponse.json()
+      // if (volunteerData.volunteerName) {
+      //     setVolunteerName(volunteerData.volunteerName)
+      //   }
     }
     fetchData();
     })
