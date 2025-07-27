@@ -105,6 +105,14 @@ export default function Home() {
           >
             Capture Photo
           </button>
+
+           <p>or</p>
+
+          <button
+            className="mt-4 bg-gray-600 text-white px-6 py-2 rounded hover:bg-gray-700"
+          >
+            Upload Photo
+          </button>
         </>
       ) : (
         <>
