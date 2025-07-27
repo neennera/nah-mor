@@ -11,11 +11,11 @@ export default function LoadingPage() {
 
   const messages = [
     "🧠 Initializing...",
-    "📸 Processing your photo using ChatGPT 4.0...",
-    "📸 Processing your photo using Gemini 3.5...",
-    "📸 Processing your photo using Claude...",
-    "📸 Processing your photo using DeepSeek...",
-    "📸 Processing your photo using Llama 3...",
+    "📸 Scanning left eye using ChatGPT 4.0...",
+    "📸 Scanning right eye using Gemini 3.5...",
+    "📸 Analyzing nose structure using Claude...",
+    "📸 Detecting lip shape using DeepSeek...",
+    "📸 Evaluating ear alignment using Llama 3...",
     "🧬 Analyzing facial features...",
     "🔎 Detecting emotions...",
     "📊 Comparing with database...",
@@ -44,7 +44,7 @@ export default function LoadingPage() {
           router.push('/analysis/green/1');
         }, 1000);
       }
-    }, 500); // Show a line every 500ms
+    }, 300); // Show a line every 500ms
 
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);

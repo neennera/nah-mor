@@ -58,7 +58,7 @@ export default function PersonalityTestResult(): JSX.Element {
         {/* Result Title */}
        <div className="text-center mb-6">
           <h1 className="text-2xl font-bold text-gray-800 mb-3">ผลลัพธ์</h1>
-          <h2 className="text-xl font-bold text-red-500 mb-6">
+          <h2 className="text-xl font-bold text-green-500 mb-6">
             "พ่อเตาปฏิกรณ์"
           </h2>
 
