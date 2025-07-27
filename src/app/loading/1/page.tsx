@@ -10,7 +10,7 @@ export default function LoadingPage() {
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
 
   const messages = [
-    "🧠 Initializing...",
+    "🧠 Initializing..",
     "📸 Scanning left eye using ChatGPT 4.0...",
     "📸 Scanning right eye using Gemini 3.5...",
     "📸 Analyzing nose structure using Claude...",
