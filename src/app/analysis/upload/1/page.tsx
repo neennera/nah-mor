@@ -25,54 +25,31 @@ export default function Home() {
 
   const confirm = async () => {
     if (photo) {
-      try {
-        const imageResponse = await fetch('/api/picture', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            image: photo, 
-            key: 'upload1_selfie' 
-          })
-        })
-        
-        if (imageResponse.ok) {
-          localStorage.setItem('userPhoto', photo);
-          router.push('/loading/1');
-        } else {
-          alert('Failed to save image. Please try again.');
-        }
-      } catch (error) {
-        console.error('Error saving image:', error);
-        alert('Error saving image. Please try again.');
+      // Save to localStorage instead of API
+      localStorage.setItem('upload1_selfie', photo);
+      localStorage.setItem('userPhoto', photo);
+      
+      if (name.trim()) {
+        localStorage.setItem('userName', name.trim());
       }
+      
+      router.push('/loading/1');
     } else {
       alert('Please enter your name and take a photo before continuing.');
     }
   };
 
   // name ---------
-   const [volunteerName, setVolunteerName] = useState<string>('')
+  const [volunteerName, setVolunteerName] = useState<string>('')
   const [currentVolunteerName, setCurrentVolunteerName] = useState<string>('ไม่ระบุชื่อ')
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState<string>('')
 
   useEffect(() => {
-    // Fetch current volunteer name
-    const fetchVolunteerName = async () => {
-      try {
-        const response = await fetch('/api/volunteer')
-        const data = await response.json()
-        if (data.volunteerName) {
-          setCurrentVolunteerName(data.volunteerName)
-        }
-      } catch (error) {
-        console.error('Error fetching volunteer name:', error)
-      }
+    // Get current volunteer name from localStorage
+    const storedName = localStorage.getItem('volunteerName')
+    if (storedName) {
+      setCurrentVolunteerName(storedName)
     }
-    
-    fetchVolunteerName()
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -82,32 +59,18 @@ export default function Home() {
       return
     }
 
-    setIsSubmitting(true)
     setMessage('')
 
     try {
-      const response = await fetch('/api/volunteer', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name: volunteerName.trim() })
-      })
-
-      const data = await response.json()
-      
-      if (response.ok) {
-        setCurrentVolunteerName(data.volunteerName)
-        setVolunteerName('')
-        setMessage('✅ บันทึกชื่ออาสาสมัครเรียบร้อยแล้ว!')
-      } else {
-        setMessage('❌ เกิดข้อผิดพลาดในการบันทึก')
-      }
+      // Save to localStorage instead of API
+      const newName = volunteerName.trim()
+      localStorage.setItem('volunteerName', newName)
+      setCurrentVolunteerName(newName)
+      setVolunteerName('')
+      setMessage('✅ บันทึกชื่ออาสาสมัครเรียบร้อยแล้ว!')
     } catch (error) {
       console.error('Error updating volunteer name:', error)
-      setMessage('❌ เกิดข้อผิดพลาดในการเชื่อมต่อ')
-    } finally {
-      setIsSubmitting(false)
+      setMessage('❌ เกิดข้อผิดพลาดในการบันทึก')
     }
   }
 
@@ -161,16 +124,15 @@ export default function Home() {
                 onChange={(e) => setVolunteerName(e.target.value)}
                 placeholder="ใส่ชื่ออาสาสมัคร..."
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-lg"
-                disabled={isSubmitting}
               />
             </div>
             
             <button
               type="submit"
-              disabled={isSubmitting || !volunteerName.trim()}
+              disabled={!volunteerName.trim()}
               className="w-full bg-blue-600 text-white px-6 py-3 rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold text-lg transition-colors"
             >
-              {isSubmitting ? '⏳ กำลังบันทึก...' : '💾 บันทึก'}
+              💾 บันทึก
             </button>
             
             {message && (

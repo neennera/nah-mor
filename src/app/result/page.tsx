@@ -18,35 +18,32 @@ export default function ResultPage() {
   const [voteResults, setVoteResults] = useState<number[]>([0, 0, 0, 0, 0, 0, 0])
   const [loading, setLoading] = useState(true)
   const [volunteerName, setVolunteerName] = useState<string>('ไม่ระบุชื่อ')
-    const fetchResults = async (attempt = 0) => {
-      try {
-        const [voteResponse, volunteerResponse] = await Promise.all([
-          fetch('/api/vote', {
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache' }
-          }),
-          fetch('/api/volunteer', {
-            cache: 'no-store',
-            headers: { 'Cache-Control': 'no-cache' }
-          })
-        ])
-        
-        if (!voteResponse.ok || !volunteerResponse.ok) {
-          throw new Error(`HTTP error! Vote: ${voteResponse.status}, Volunteer: ${volunteerResponse.status}`)
-        }
-        
-        const voteData = await voteResponse.json()
-        const volunteerData = await volunteerResponse.json()
-        
-        if (voteData.voteresult) {
-          setVoteResults(voteData.voteresult)
-        }
-        
-        if (volunteerData.volunteerName) {
-          setVolunteerName(volunteerData.volunteerName)
-        }
-      } catch (error) {
-        console.error(`Error fetching results (attempt ${attempt + 1}):`, error)
+  
+  const fetchResults = async (attempt = 0) => {
+    try {
+      // Get volunteer name from localStorage
+      const storedName = localStorage.getItem('volunteerName')
+      if (storedName) {
+        setVolunteerName(storedName)
+      }
+      
+      // Fetch only vote results from API
+      const voteResponse = await fetch('/api/vote', {
+        cache: 'no-store',
+        headers: { 'Cache-Control': 'no-cache' }
+      })
+      
+      if (!voteResponse.ok) {
+        throw new Error(`HTTP error! Vote: ${voteResponse.status}`)
+      }
+      
+      const voteData = await voteResponse.json()
+      
+      if (voteData.voteresult) {
+        setVoteResults(voteData.voteresult)
+      }
+    } catch (error) {
+      console.error(`Error fetching results (attempt ${attempt + 1}):`, error)
         
         // Retry up to 3 times with increasing delay
         if (attempt < 2) {

@@ -32,15 +32,11 @@ export default function ResultDisplayPage() {
 
   
   const fetchCandidate = async () => {
-      const [volunteerResponse] = await Promise.all([
-          fetch('/api/volunteer')
-        ])
-      
-        const volunteerData = await volunteerResponse.json()
-        
-        if (volunteerData.volunteerName) {
-          setVolunteerName(volunteerData.volunteerName)
-        }
+    // Get volunteer name from localStorage
+    const storedName = localStorage.getItem('volunteerName')
+    if (storedName) {
+      setVolunteerName(storedName)
+    }
   }
   const fetchResults = async () => {
     try {
