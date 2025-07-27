@@ -66,7 +66,7 @@ export default function ResultPage() {
 
   return (
     <main className="container mx-auto p-8 ">
-      <h1 className="text-3xl font-bold text-center mb-4">Voting Results</h1>
+      <h1 className="text-3xl font-bold text-center mb-4">คู่ชีวิตของคุณ</h1>
       
       <div className="text-center my-8 flex flex-row justify-end space-x-5 items-baseline">
           <button
