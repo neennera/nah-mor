@@ -25,55 +25,31 @@ export default function Home() {
 
   const confirm = async () => {
     if (photo) {
-      try {
-        // Save image to API
-        const imageResponse = await fetch('/api/picture', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ 
-            image: photo, 
-            key: 'upload2_selfie' 
-          })
-        })
-        
-        if (imageResponse.ok) {
-          localStorage.setItem('userPhoto', photo);
-          router.push('/loading/2');
-        } else {
-          alert('Failed to save image. Please try again.');
-        }
-      } catch (error) {
-        console.error('Error saving image:', error);
-        alert('Error saving image. Please try again.');
+      // Save to localStorage instead of API
+      localStorage.setItem('upload2_selfie', photo);
+      localStorage.setItem('userPhoto', photo);
+      
+      if (name.trim()) {
+        localStorage.setItem('userName', name.trim());
       }
+      
+      router.push('/loading/2');
     } else {
       alert('Please enter your name and take a photo before continuing.');
     }
   };
 
   // name ---------
-   const [volunteerName, setVolunteerName] = useState<string>('')
+  const [volunteerName, setVolunteerName] = useState<string>('')
   const [currentVolunteerName, setCurrentVolunteerName] = useState<string>('ไม่ระบุชื่อ')
-  const [isSubmitting, setIsSubmitting] = useState(false)
   const [message, setMessage] = useState<string>('')
 
   useEffect(() => {
-    // Fetch current volunteer name
-    const fetchVolunteerName = async () => {
-      try {
-        const response = await fetch('/api/volunteer')
-        const data = await response.json()
-        if (data.volunteerName) {
-          setCurrentVolunteerName(data.volunteerName)
-        }
-      } catch (error) {
-        console.error('Error fetching volunteer name:', error)
-      }
+    // Get current volunteer name from localStorage
+    const storedName = localStorage.getItem('volunteerName')
+    if (storedName) {
+      setCurrentVolunteerName(storedName)
     }
-    
-    fetchVolunteerName()
   }, [])
 
   
