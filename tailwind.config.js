@@ -7,6 +7,11 @@ module.exports = {
   ],
   theme: {
     extend: {
+      fontFamily: {
+        'kanit': ['Kanit', 'sans-serif'],
+        'chonburi': ['Chonburi', 'serif'],
+        'sarabun': ['Sarabun', 'sans-serif'],
+      },
       animation: {
         scan: 'scan 2s ease-in-out infinite',
       },

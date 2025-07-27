@@ -1,9 +1,13 @@
 import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
+import { Kanit } from 'next/font/google'
 import './globals.css'
 import Image from 'next/image'
 
-const inter = Inter({ subsets: ['latin'] })
+const kanit = Kanit({ 
+  subsets: ['latin', 'thai'],
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
+  style: ['normal', 'italic']
+})
 
 export const metadata: Metadata = {
   title: 'Nah-Mor',
@@ -17,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-        <body className={`${inter.className} w-full bg-[#77856b] flex items-center justify-center`}>
+        <body className={`${kanit.className} w-full bg-[#77856b] flex items-center justify-center`}>
             <div className='w-full md:max-w-[390px] bg-white min-h-screen flex flex-col'>
                 {/* <nav className="bg-black text-white p-4">
                 <div className="container mx-auto flex justify-between items-center">
